@@ -1,7 +1,7 @@
 import hudson.model.*
 import jenkins.model.*
 
-import org.jenkinsci.plugins.workflow.job.PipelineJob
+
 import org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition
 
 // groovy script to run 3 jobs:
@@ -13,7 +13,7 @@ import org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition
 // Declare variables for the job
 // def gitUrl = "https://github.com/user/repo.git"
 
-
+import org.jenkinsci.plugins.workflow.job.PipelineJob
 
 def createJob(name, script) {
   def instance = Jenkins.getInstance()
