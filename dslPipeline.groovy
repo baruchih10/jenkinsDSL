@@ -16,20 +16,12 @@ import hudson.tasks.ArtifactArchiver
 // Declare variables for the job
 // def gitUrl = "https://github.com/user/repo.git"
 
-def createJob(name) {
+def createJob(name, script) {
   def instance = Jenkins.getInstance()
-  def job = instance.createProject(FreeStyleProject, name)
-  job.addPublisher(new ArtifactArchiver("*.txt", "", false, false))
+  def job = instance.createProject(PipelineJob, name)
+  job.definition = new CpsFlowDefinition(script, true)
   job.save()
 }
-
-
-// def createJob(name, script) {
-//   def instance = Jenkins.getInstance()
-//   def job = instance.createProject(PipelineJob, name)
-//   job.definition = new CpsFlowDefinition(script, true)
-//   job.save()
-// }
 
 createJob("flaskImageBuild", """
 pipeline {
