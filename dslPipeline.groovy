@@ -1,6 +1,7 @@
 import hudson.model.*
 import jenkins.model.*
 import org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition
+import org.jenkinsci.plugins.workflow.job.PipelineJob
 
 // groovy script to run 3 jobs:
 // flaskImageBuild
