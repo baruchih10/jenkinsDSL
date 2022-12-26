@@ -1,3 +1,7 @@
+import hudson.model.*
+import jenkins.model.*
+import org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition
+
 // groovy script to run 3 jobs:
 // flaskImageBuild
 // njinxImageBuild
@@ -5,12 +9,9 @@
 
 
 // Declare variables for the job
-def jobName = "my-pipeline-job"
-def gitUrl = "https://github.com/user/repo.git"
+// def gitUrl = "https://github.com/user/repo.git"
 
 
-import hudson.model.*
-import jenkins.model.*
 
 def createJob(name, script) {
   def instance = Jenkins.getInstance()
