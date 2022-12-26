@@ -3,7 +3,7 @@ import jenkins.model.*
 
 
 import org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition
-import org.jenkinsci.plugins.workflow.job.PipelineJob
+import org.jenkinsci.plugins.workflow.job.*
 import hudson.model.FreeStyleProject
 import hudson.tasks.ArtifactArchiver
 
