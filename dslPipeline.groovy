@@ -22,17 +22,13 @@ import hudson.tasks.ArtifactArchiver
 def createJob(name, script) {
   def instance = Jenkins.getInstance()
   def job = jenkins.getItem(name)
-  def newJob = null
-
-
-  if ( job == null) {
-    newJob = instance.createProject(WorkflowJob, name)
-  } else {
-    newJob = job
-  }
   
-  newJob.definition = new CpsFlowDefinition(script, true)
-  newJob.save()
+  if ( job == null) {
+    job = instance.createProject(WorkflowJob, name)
+  }
+   
+  job.definition = new CpsFlowDefinition(script, true)
+  job.save()
 }
 
 createJob("flaskImageBuild", """
