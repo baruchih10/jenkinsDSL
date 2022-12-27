@@ -38,8 +38,10 @@ pipeline {
   agent any
   stages {
     stage('Build') {
-        echo 'Building... flaskImageBuild'
+      steps {
+          echo 'Building... flaskImageBuild'
       }
+    }
   }
 }
 """)
