@@ -30,7 +30,7 @@ def createAndRunJob(name, script) {
   job.definition = new CpsFlowDefinition(script, true)
   job.save()
   build = job.scheduleBuild()
-  buildResult = build.get()
+  buildResult = build.any()
   println "${name} invoked - buildResult ${buildResult}"
 }
 
