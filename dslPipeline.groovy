@@ -39,8 +39,6 @@ pipeline {
   agent any
   environment {
     dockerhub = credentials('dockerhub')
-    dockerhPWD = $dockerhub_PWD
-    dockerhUSR = $dockerhub_USR
   }
   stages {
     stage('Checkout code from Git repository') {
@@ -50,7 +48,14 @@ pipeline {
     }
     stage('Login') {
 			steps {
-    		sh 'echo $dockerhPWD | docker login -u $dockerhUSR --password-stdin'
+        script {
+          GIT_COMMIT_EMAIL = sh (
+              script: 'git --no-pager show -s --format=\'%ae\'',
+              returnStdout: true
+          ).trim()
+        echo "Git committer email: ${GIT_COMMIT_EMAIL}"
+        }
+        
 			}
 		}
     stage('Build') {
