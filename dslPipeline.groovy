@@ -29,7 +29,7 @@ def createAndRunJob(name, script) {
 
   job.definition = new CpsFlowDefinition(script, true)
   job.save()
-  build = job.scheduleBuild().get()
+  build = job.scheduleBuild().wait()
   println "Started ${name} build is: ${build} "
 }
 
