@@ -40,6 +40,12 @@ pipeline {
     stage('Build') {
       steps {
           echo 'Building... flaskImageBuild'
+          dockerImage = docker.build bflask ./flask
+          // docker build -t bflask ./flask
+          docker.withRegistry( '', registryCredential ) {
+            dockerImage.push("$BUILD_NUMBER")
+             dockerImage.push('latest')
+          }
       }
     }
   }
