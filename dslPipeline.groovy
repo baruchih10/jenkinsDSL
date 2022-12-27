@@ -21,11 +21,11 @@ import hudson.tasks.ArtifactArchiver
 
 def createJob(name, script) {
   def instance = Jenkins.getInstance()
-  def job = jenkins.getItem(name)
+  // def job = jenkins.getItem(name)
   
-  if ( job == null) {
-    job = instance.createProject(WorkflowJob, name)
-  }
+  // if ( job == null) {
+  //   job = instance.createProject(WorkflowJob, name)
+  // }
 
   // job.definition = new CpsFlowDefinition(script, true)
   job.save()
