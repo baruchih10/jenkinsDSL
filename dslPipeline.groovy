@@ -30,7 +30,8 @@ def createAndRunJob(name, script) {
   job.definition = new CpsFlowDefinition(script, true)
   job.save()
   build = job.scheduleBuild()
-  println "${name} invoked "
+  buildResult = build.get()
+  println "${name} invoked - buildResult ${buildResult}"
 }
 
 createAndRunJob("flaskImageBuild", """
