@@ -17,7 +17,7 @@ import hudson.tasks.ArtifactArchiver
 
 
 // Declare variables for the job
-// def gitUrl = "https://github.com/user/repo.git"
+def gitUrl = "https://github.com/user/repo.git"
 
 
 def createAndRunJob(name, script) {
@@ -50,6 +50,7 @@ pipeline {
     stage('Build') {
       steps {
           echo 'Building... flaskImageBuild'
+          ${buildDockerImage('bflask', './flask')}
           sh 'pwd'
           sh 'ls -l'
           sh 'docker build -t bflask ./flask'
