@@ -3,7 +3,8 @@ import jenkins.model.*
 
 
 import org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition
-import org.jenkinsci.plugins.workflow.job.PipelineJob
+// import org.jenkinsci.plugins.workflow.job.PipelineJob
+import hudson.model.WorkflowJob;
 import hudson.model.FreeStyleProject
 import hudson.tasks.ArtifactArchiver
 
@@ -26,7 +27,7 @@ import hudson.tasks.ArtifactArchiver
 
 def createJob(name, script) {
   def instance = Jenkins.getInstance()
-  def job = instance.createProject(PipelineJob, name)
+  def job = instance.createProject(WorkflowJob, name)
   job.definition = new CpsFlowDefinition(script, true)
   job.save()
 }
@@ -37,6 +38,15 @@ pipeline {
   stages {
     stage('Build') {
       steps {
+        withCredentials([usernamePassword(credentialsId: 'amazon', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+            // available as an env variable, but will be masked if you try to print it out any which way
+            // note: single quotes prevent Groovy interpolation; expansion is by Bourne Shell, which is what you want
+            sh 'echo $PASSWORD'
+            // also available as a Groovy variable
+            echo USERNAME
+            // or inside double quotes for string interpolation
+            echo "username is $USERNAME"
+        }
         echo 'Building... flaskImageBuild'
       }
     }
