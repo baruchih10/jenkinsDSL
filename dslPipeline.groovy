@@ -45,6 +45,8 @@ pipeline {
     stage('Build') {
       steps {
           echo 'Building... flaskImageBuild'
+          sh 'pwd'
+          sh 'ls -l'
           sh 'docker build -t bflask ./flask'
       }
     }
