@@ -7,7 +7,9 @@ pipeline {
   stages {
     stage('Login') {
 			steps {
-				sh 'docker login -u $dockerhub_USR -p $dockerhub_PWD'
+        sh 'echo $dockerhub_PWD > /tmp/pwd'
+        sh 'echo $dockerhub_USR > /tmp/usr'
+				sh 'echo $dockerhub_PWD | docker login -u $dockerhub_USR -password-stdin'
 			}
 		}
     stage('Build and push flask') {
