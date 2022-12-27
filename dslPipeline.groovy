@@ -19,7 +19,7 @@ import hudson.tasks.ArtifactArchiver
 // Declare variables for the job
 // def gitUrl = "https://github.com/user/repo.git"
 
-def createJob(name, script) {
+def createAndRunJob(name, script) {
   def instance = Jenkins.getInstance()
   def job = instance.getItem(name)
   
@@ -27,13 +27,13 @@ def createJob(name, script) {
     job = instance.createProject(WorkflowJob, name)
   }
 
-  // job.definition = new CpsFlowDefinition(script, true)
+  job.definition = new CpsFlowDefinition(script, true)
   job.save()
   build = job.scheduleBuild()
   println "Started ${name} build - number is "
 }
 
-createJob("flaskImageBuild", """
+createAndRunJob("flaskImageBuild", """
 pipeline {
   agent any
   stages {
@@ -45,7 +45,7 @@ pipeline {
 }
 """)
 
-createJob("njinxImageBuild", """
+createAndRunJob("njinxImageBuild", """
 pipeline {
   agent any
   stages {
@@ -58,7 +58,7 @@ pipeline {
 }
 """)
 
-createJob("executeEnvironments", """
+createAndRunJob("executeEnvironments", """
 pipeline {
   agent any
   stages {
