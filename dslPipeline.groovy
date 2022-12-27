@@ -52,7 +52,7 @@ pipeline {
 			steps {
         withCredentials([[class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']])
         {
-          sh 'echo uname=$USERNAME pwd=$PASSWORD '
+          sh 'echo uname=${USERNAME} pwd=${PASSWORD} '
         }
 			}
 		}
