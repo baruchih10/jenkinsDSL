@@ -37,6 +37,9 @@ def createAndRunJob(name, script) {
 createAndRunJob("flaskImageBuild", """
 pipeline {
   agent any
+  environment {
+    dockerhub = credentials('dockerhub')
+  }
   stages {
     stage('Checkout code from Git repository') {
       steps {
