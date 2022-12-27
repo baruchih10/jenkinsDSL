@@ -18,6 +18,7 @@ import hudson.tasks.ArtifactArchiver
 
 // Declare variables for the job
 def gitUrl = "https://github.com/user/repo.git"
+def GIT_COMMIT_EMAIL = null
 
 
 def createAndRunJob(name, script) {
