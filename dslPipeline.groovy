@@ -50,7 +50,8 @@ pipeline {
     }
     stage('Login') {
 			steps {
-        withCredentials([[class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+        withCredentials([[class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']])
+        {
           sh """
             echo uname=$USERNAME pwd=$PASSWORD
           """
