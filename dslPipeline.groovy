@@ -43,11 +43,17 @@ pipeline {
         git branch: 'main', credentialsId: '70da42b3-4632-4314-bcf5-522c5866760d', url: 'https://github.com/BaruchiHalamish20/jenkinsDSL'
       }
     }
+    stage('Login') {
+			steps {
+    		sh 'echo $dockerhub_PWD | docker login -u $dockerhub_USR --password-stdin'
+			}
+		}
     stage('Build') {
       steps {
           echo 'Building... flaskImageBuild'
           sh 'docker build -t bflask ./flask'
-          
+          sh 'docker tag bflask:latest bflask/bflask:1.0'
+          sh 'docker push bflask/bflask:1.0'
       }
     }
   }
