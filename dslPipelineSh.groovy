@@ -8,8 +8,8 @@ pipeline {
           sh 'whoami > /tmp/who'
           sh 'docker run hello-world'
           sh 'docker build -t bflask ./flask'
-          sh 'docker tag bflask:latest myusername/bflask:1.0'
-          sh 'docker push myusername/bflask:1.0'
+          sh 'docker tag bflask:latest bflask/bflask:1.0'
+          sh 'docker push bflask/bflask:1.0'
         }
       }
     }
@@ -19,8 +19,8 @@ pipeline {
         script {
           // Build and push the second Docker image
           sh 'docker build -t bnginx -f ./nginx'
-          sh 'docker tag bnginx:latest myusername/bnginx:1.0'
-          sh 'docker push myusername/bnginx:1.0'
+          sh 'docker tag bnginx:latest bnginx/bnginx:1.0'
+          sh 'docker push bnginx/bnginx:1.0'
         }
       }
     }
