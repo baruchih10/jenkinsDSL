@@ -6,7 +6,9 @@ import jenkins.model.*
 
 import org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition
 // import org.jenkinsci.plugins.workflow.job.PipelineJob
-import hudson.model.WorkflowJob;
+import org.jenkinsci.plugins.workflow.job.WorkflowJob
+
+// import hudson.model.WorkflowJob;
 import hudson.model.FreeStyleProject
 import hudson.tasks.ArtifactArchiver
 
