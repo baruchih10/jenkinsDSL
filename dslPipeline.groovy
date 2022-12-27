@@ -19,28 +19,21 @@ import hudson.tasks.ArtifactArchiver
 // Declare variables for the job
 // def gitUrl = "https://github.com/user/repo.git"
 
-def deleteJob(name) {
-  def jenkins = Jenkins.getInstance()
-  def item = jenkins.getItem(name)
-
-  if (item != null) {
-    jenkins.delete(item)
-    println "Project $name deleted successfully!"
-  } else {
-    println "Error: Project $name does not exist."
-  }
-}
-
 def createJob(name, script) {
   def instance = Jenkins.getInstance()
-  def job = instance.createProject(WorkflowJob, name)
-  job.definition = new CpsFlowDefinition(script, true)
-  job.save()
-}
+  def job = jenkins.getItem(name)
+  def newJob = null
 
-deleteJob("flaskImageBuild")
-deleteJob("njinxImageBuild")
-deleteJob("executeEnvironments")
+
+  if ( job == null) {
+    newJob = instance.createProject(WorkflowJob, name)
+  } else {
+    newJob = job
+  }
+  
+  newJob.definition = new CpsFlowDefinition(script, true)
+  newJob.save()
+}
 
 createJob("flaskImageBuild", """
 pipeline {
