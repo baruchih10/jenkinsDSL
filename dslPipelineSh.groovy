@@ -12,8 +12,8 @@ pipeline {
       }
     }
     stage('Build and push nginx') {
-      dependsOn 'Build and push image 1'
       steps {
+        dependsOn 'Build and push flask'
         script {
           // Build and push the second Docker image
           sh 'docker build -t bnginx -f nginx/Dockerfile '
