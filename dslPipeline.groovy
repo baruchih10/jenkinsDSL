@@ -3,7 +3,7 @@ import jenkins.model.*
 
 
 import org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition
-import org.jenkinsci.plugins.workflow.job.*
+import org.jenkinsci.plugins.workflow.job.PipelineJob
 import hudson.model.FreeStyleProject
 import hudson.tasks.ArtifactArchiver
 
@@ -15,6 +15,14 @@ import hudson.tasks.ArtifactArchiver
 
 // Declare variables for the job
 // def gitUrl = "https://github.com/user/repo.git"
+
+// def createJob(name) {
+//   def instance = Jenkins.getInstance()
+//   def job = instance.createProject(FreeStyleProject, name)
+//   job.addPublisher(new ArtifactArchiver("*.txt", "", false, false))
+//   job.save()
+// }
+
 
 def createJob(name, script) {
   def instance = Jenkins.getInstance()
