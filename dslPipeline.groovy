@@ -39,6 +39,8 @@ pipeline {
   agent any
   environment {
     dockerhub = credentials('dockerhub')
+    dockerhPWD = $dockerhub_PWD
+    dockerhUSR = $dockerhub_USR
   }
   stages {
     stage('Checkout code from Git repository') {
@@ -48,7 +50,7 @@ pipeline {
     }
     stage('Login') {
 			steps {
-    		sh 'echo $dockerhub_PWD | docker login -u $dockerhub_USR --password-stdin'
+    		sh 'echo $dockerhPWD | docker login -u $dockerhUSR --password-stdin'
 			}
 		}
     stage('Build') {
