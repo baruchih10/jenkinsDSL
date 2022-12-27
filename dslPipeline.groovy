@@ -26,8 +26,8 @@ def createJob(name, script) {
   if ( job == null) {
     job = instance.createProject(WorkflowJob, name)
   }
-   
-  job.definition = new CpsFlowDefinition(script, true)
+
+  // job.definition = new CpsFlowDefinition(script, true)
   job.save()
 }
 
