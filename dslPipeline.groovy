@@ -46,17 +46,19 @@ pipeline {
       steps {
           echo 'Building... flaskImageBuild'
           buildDockerImage(bflask ./flask)
-          // dockerImage = docker.build bflask ./flask
-          // docker build -t bflask ./flask
-          // docker.withRegistry( '', registryCredential ) {
-          //   dockerImage.push("$BUILD_NUMBER")
-          //    dockerImage.push('latest')
-          // }
       }
     }
   }
 }
 """)
+
+// dockerImage = docker.build bflask ./flask
+          // docker build -t bflask ./flask
+          // docker.withRegistry( '', registryCredential ) {
+          //   dockerImage.push("$BUILD_NUMBER")
+          //    dockerImage.push('latest')
+          // }
+
 
 createAndRunJob("njinxImageBuild", """
 pipeline {
