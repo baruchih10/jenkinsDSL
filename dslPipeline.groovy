@@ -34,11 +34,6 @@ def createAndRunJob(name, script) {
   println "${name} invoked"
 }
 
-def buildDockerImage(imageName, path) {
-  echo "I am here .........."
-  
-}
-
 createAndRunJob("flaskImageBuild", """
 pipeline {
   agent any
@@ -51,10 +46,8 @@ pipeline {
     stage('Build') {
       steps {
           echo 'Building... flaskImageBuild'
-          ${buildDockerImage('bflask', './flask')}
-          sh 'pwd'
-          sh 'ls -l'
           sh 'docker build -t bflask ./flask'
+          
       }
     }
   }
