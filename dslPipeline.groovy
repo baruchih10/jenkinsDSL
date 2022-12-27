@@ -5,10 +5,8 @@ import jenkins.model.*
 
 
 import org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition
-// import org.jenkinsci.plugins.workflow.job.PipelineJob
 import org.jenkinsci.plugins.workflow.job.WorkflowJob
 
-// import hudson.model.WorkflowJob;
 import hudson.model.FreeStyleProject
 import hudson.tasks.ArtifactArchiver
 
@@ -21,13 +19,17 @@ import hudson.tasks.ArtifactArchiver
 // Declare variables for the job
 // def gitUrl = "https://github.com/user/repo.git"
 
-// def createJob(name) {
-//   def instance = Jenkins.getInstance()
-//   def job = instance.createProject(FreeStyleProject, name)
-//   job.addPublisher(new ArtifactArchiver("*.txt", "", false, false))
-//   job.save()
-// }
+def deleteJob(name) {
+  def jenkins = Jenkins.getInstance()
+  def item = jenkins.getItem(name)
 
+  if (item != null) {
+    jenkins.delete(item)
+    println "Project $name deleted successfully!"
+  } else {
+    println "Error: Project $name does not exist."
+  }
+}
 
 def createJob(name, script) {
   def instance = Jenkins.getInstance()
@@ -35,6 +37,10 @@ def createJob(name, script) {
   job.definition = new CpsFlowDefinition(script, true)
   job.save()
 }
+
+deleteJob("flaskImageBuild")
+deleteJob("njinxImageBuild")
+deleteJob("executeEnvironments")
 
 createJob("flaskImageBuild", """
 pipeline {
