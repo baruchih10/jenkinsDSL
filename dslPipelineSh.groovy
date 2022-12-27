@@ -8,9 +8,7 @@ pipeline {
     stage('Login') {
 			steps {
         sh ' echo $dockerhub > /tmp/dockerhub'
-        sh 'echo $dockerhub_PASSWORD > /tmp/PASSWORD'
-        sh 'echo $dockerhub_ID > /tmp/ID'
-				
+        sh 'echo ${env.dockerhub_PSW}> /tmp/PWD'
         sh 'echo $dockerhub_USR > /tmp/usr'
 				sh 'echo $dockerhub_PWD | docker login -u $dockerhub_USR --password-stdin'
 			}
