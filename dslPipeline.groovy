@@ -18,7 +18,9 @@ import hudson.tasks.ArtifactArchiver
 
 // Declare variables for the job
 def gitUrl = "https://github.com/user/repo.git"
-def GIT_COMMIT_EMAIL = null
+def DOCKER_HUB_PUSH = null
+def dockerhub_PWD = null
+def dockerhub_USR = null
 
 
 def createAndRunJob(name, script) {
@@ -50,11 +52,11 @@ pipeline {
     stage('Login') {
 			steps {
         script {
-          GIT_COMMIT_EMAIL = sh (
-              script: 'git --no-pager show -s --format=\'%ae\'',
+          DOCKER_HUB_PUSH = sh (
+              script: 'echo $dockerhub_PWD | docker login -u $dockerhub_USR --password-stdin',
               returnStdout: true
-          ).trim()
-        echo "Git committer email: ${GIT_COMMIT_EMAIL}"
+          )
+        echo "return status: ${DOCKER_HUB_PUSH}"
         }
         
 			}
