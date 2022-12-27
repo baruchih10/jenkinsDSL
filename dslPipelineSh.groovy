@@ -5,6 +5,7 @@ pipeline {
       steps {
         script {
           // Build and push the first Docker image
+          sh 'whoami > /tmp/who'
           sh 'docker run hello-world'
           sh 'docker build -t bflask ./flask'
           sh 'docker tag bflask:latest myusername/bflask:1.0'
