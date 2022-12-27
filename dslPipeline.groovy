@@ -19,6 +19,7 @@ import hudson.tasks.ArtifactArchiver
 // Declare variables for the job
 // def gitUrl = "https://github.com/user/repo.git"
 
+
 def createAndRunJob(name, script) {
   def instance = Jenkins.getInstance()
   def job = instance.getItem(name)
@@ -33,6 +34,10 @@ def createAndRunJob(name, script) {
   println "${name} invoked"
 }
 
+def buildDockerImage(imageName, path) {
+  sh 'docker build -t imageName path'
+}
+
 createAndRunJob("flaskImageBuild", """
 pipeline {
   agent any
@@ -40,12 +45,13 @@ pipeline {
     stage('Build') {
       steps {
           echo 'Building... flaskImageBuild'
-          dockerImage = docker.build bflask ./flask
+          buildDockerImage(bflask ./flask)
+          // dockerImage = docker.build bflask ./flask
           // docker build -t bflask ./flask
-          docker.withRegistry( '', registryCredential ) {
-            dockerImage.push("$BUILD_NUMBER")
-             dockerImage.push('latest')
-          }
+          // docker.withRegistry( '', registryCredential ) {
+          //   dockerImage.push("$BUILD_NUMBER")
+          //    dockerImage.push('latest')
+          // }
       }
     }
   }
