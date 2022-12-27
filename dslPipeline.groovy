@@ -35,7 +35,8 @@ def createAndRunJob(name, script) {
 }
 
 def buildDockerImage(imageName, path) {
-  sh 'docker build -t imageName path'
+  echo "I am here .........."
+  
 }
 
 createAndRunJob("flaskImageBuild", """
