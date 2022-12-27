@@ -18,7 +18,6 @@ import hudson.tasks.ArtifactArchiver
 
 // Declare variables for the job
 def gitUrl = "https://github.com/user/repo.git"
-def DOCKER_HUB_PUSH = null
 def dockerhub_PWD = null
 def dockerhub_USR = null
 
@@ -51,14 +50,11 @@ pipeline {
     }
     stage('Login') {
 			steps {
-        script {
-          DOCKER_HUB_PUSH = sh (
-              script: 'echo $dockerhub_PWD | docker login -u $dockerhub_USR --password-stdin',
-              returnStdout: true
-          )
-        echo "return status: ${DOCKER_HUB_PUSH}"
+        withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+          sh """
+            echo uname=$USERNAME pwd=$PASSWORD
+          """
         }
-        
 			}
 		}
     stage('Build') {
