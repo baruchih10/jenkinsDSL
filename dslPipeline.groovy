@@ -48,14 +48,7 @@ pipeline {
         git branch: 'main', credentialsId: '70da42b3-4632-4314-bcf5-522c5866760d', url: 'https://github.com/BaruchiHalamish20/jenkinsDSL'
       }
     }
-    stage('Login') {
-			steps {
-        withCredentials([[class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']])
-        sh """
-          echo uname=\$USERNAME pwd=$PASSWORD
-        """
-			}
-		}
+    
     stage('Build') {
       steps {
           echo 'Building... flaskImageBuild'
