@@ -50,10 +50,11 @@ pipeline {
     }
     stage('Login') {
 			steps {
-        withCredentials([class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD'])
-        {
+
+        withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
           sh 'echo uname=$USERNAME pwd=$PASSWORD'
         }
+       
 			}
 		}
     stage('Build') {
@@ -67,6 +68,8 @@ pipeline {
   }
 }
 """)
+
+
 // buildDockerImage(bflask ./flask)
 // dockerImage = docker.build bflask ./flask
           // docker build -t bflask ./flask
