@@ -45,13 +45,13 @@ pipeline {
     stage('Build') {
       steps {
           echo 'Building... flaskImageBuild'
-          buildDockerImage(bflask ./flask)
+          sh 'docker build -t bflask ./flask'
       }
     }
   }
 }
 """)
-
+// buildDockerImage(bflask ./flask)
 // dockerImage = docker.build bflask ./flask
           // docker build -t bflask ./flask
           // docker.withRegistry( '', registryCredential ) {
