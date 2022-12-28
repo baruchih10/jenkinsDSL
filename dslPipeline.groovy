@@ -115,12 +115,14 @@ pipeline {
     }
     stage('Verification') {
       steps {
-        def response = sh(script: "curl ${verificationUrl} |& grep -q '404 Not Found' && echo '404' || echo '1'", returnStdout: true)
-        if (response == "404") {
-          println 'Failure - ${verificationUrl} not Found'
-          exit 404
-        } else {
-          println 'Success - ${verificationUrl} Found'
+        script {
+          def response = sh(script: "curl ${verificationUrl} |& grep -q '404 Not Found' && echo '404' || echo '1'", returnStdout: true)
+          if (response == "404") {
+            println 'Failure - ${verificationUrl} not Found'
+            exit 404
+          } else {
+            println 'Success - ${verificationUrl} Found'
+          }
         }
       }
     }
