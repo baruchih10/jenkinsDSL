@@ -19,7 +19,9 @@ pipeline {
     stage('Building image') {
       steps{
         script {
-          dockerImage = docker.build "$dockerhub_USR/bflask"
+          sh 'cd blask'
+          dockerImage = docker.build "$dockerhub_USR/bflask" "bflask"
+          sh 'cd -'
         }
       }
     }
