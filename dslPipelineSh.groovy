@@ -13,15 +13,27 @@ pipeline {
 				sh 'echo $dockerhub_PSW | docker login -u $dockerhub_USR --password-stdin'
 			}
 		}
-    stage('Build and push flask') {
-      steps {
+    
+    stage('Building image') {
+      steps{
         script {
-          sh 'docker build -t bflask ./flask'
-          sh 'docker tag bflask:latest bflask/bflask:1.0'
-          sh 'docker push $dockerhub_USR/bflask:bflask:1.0'
+          dockerImage = docker.build bflask
         }
       }
     }
+    stage('Deploy Image') {
+      steps{
+        script {
+          docker.withRegistry( '', dockerhub ) {
+            dockerImage.push("1.0")
+            dockerImage.push('latest')
+          }
+        }
+      }
+    
+    
+    
+   
     stage('Build and push nginx') {
       steps {
         dependsOn 'Build and push flask'
