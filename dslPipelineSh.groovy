@@ -23,8 +23,8 @@ pipeline {
     stage('Deploy Image') {
       steps{
         script {
-          docker.withRegistry([ credentialsId: "dockerhub", url: "" ]) {
-            dockerImage.push("1.0")
+          docker.withRegistry('') {
+            docker.image(dockerImage).push("1.0")
             dockerImage.push('latest')
           }
         }
