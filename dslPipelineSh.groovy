@@ -9,9 +9,6 @@ pipeline {
   stages {
     stage('Login') {
 			steps {
-        sh ' echo $dockerhub > /tmp/dockerhub'
-        sh 'echo $dockerhub_USR > /tmp/usr'
-        sh 'echo $dockerhub_PSW > /tmp/psw'
 				sh 'echo $dockerhub_PSW | docker login -u $dockerhub_USR --password-stdin'
 			}
 		}
@@ -26,7 +23,7 @@ pipeline {
     stage('Deploy Image') {
       steps{
         script {
-          docker.withRegistry( '', dockerhub ) {
+          docker.withDockerRegistry([ credentialsId: "dockerhub", url: "" ]) {
             dockerImage.push("1.0")
             dockerImage.push('latest')
           }
