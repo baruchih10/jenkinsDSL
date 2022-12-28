@@ -18,7 +18,7 @@ pipeline {
         script {
           sh 'docker build -t bflask ./flask'
           sh 'docker tag bflask:latest bflask/bflask:1.0'
-          sh 'docker push bflask/bflask:1.0'
+          sh 'docker push $dockerhub_USR/bflask:bflask:1.0'
         }
       }
     }
