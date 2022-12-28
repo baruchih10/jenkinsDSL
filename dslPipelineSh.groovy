@@ -19,9 +19,7 @@ pipeline {
     stage('Building image') {
       steps{
         script {
-          sh 'cd flask'
-          dockerImage = docker.build "$dockerhub_USR/bflask" "-f flask/Dockerfile ."
-          sh 'cd -'
+          dockerImage = docker.build("$dockerhub_USR/bflask", "./flask")
         }
       }
     }
