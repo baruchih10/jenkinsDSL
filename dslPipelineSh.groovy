@@ -2,6 +2,8 @@ pipeline {
   agent any
   environment {
     dockerhub = credentials('dockerhub')
+    registryCredential = 'dockerhub'
+    dockerImage = ''
   }
   
   stages {
@@ -17,7 +19,7 @@ pipeline {
     stage('Building image') {
       steps{
         script {
-          dockerImage = docker.build bflask
+          dockerImage = docker.build "$dockerhub_USR/bflask"
         }
       }
     }
