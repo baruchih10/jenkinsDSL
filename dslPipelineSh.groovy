@@ -9,7 +9,8 @@ pipeline {
 			steps {
         sh ' echo $dockerhub > /tmp/dockerhub'
         sh 'echo $dockerhub_USR > /tmp/usr'
-				sh 'echo $dockerhub_PWD | docker login -u $dockerhub_USR --password-stdin'
+        sh 'echo $dockerhub_PSW > /tmp/psw'
+				sh 'echo $dockerhub_PSW | docker login -u $dockerhub_USR --password-stdin'
 			}
 		}
     stage('Build and push flask') {
