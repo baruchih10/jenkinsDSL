@@ -49,11 +49,46 @@ pipeline {
       }
     }
     
-   
+    stage('DockerHub Build and push') {
+			steps {
+        script.withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]){
+          dockerImageFlask = docker.build("$USERNAME/bflask", "./flask")
+          dockerImageFlask.push()
+        }
+			}
+		}
      
   }
 }
 """)
+
+
+createAndRunJob("nginxImageBuild", """
+pipeline {
+  agent any
+  environment {
+    dockerhub = credentials('dockerhub')
+  }
+  stages {
+    stage('Checkout code from Git repository') {
+      steps {
+        git branch: 'main', credentialsId: '70da42b3-4632-4314-bcf5-522c5866760d', url: 'https://github.com/BaruchiHalamish20/jenkinsDSL'
+      }
+    }
+    
+    stage('DockerHub Build and push') {
+			steps {
+        script.withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]){
+          dockerImageNginx = docker.build("$USERNAME/bnginx", "./nginx")
+          dockerImageNginx.push()
+        }
+			}
+		}
+     
+  }
+}
+""")
+
 
           // sh """
           //   echo uname=$USERNAME pwd=$PASSWORD
