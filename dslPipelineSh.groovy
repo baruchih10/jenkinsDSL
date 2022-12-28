@@ -20,7 +20,7 @@ pipeline {
       steps{
         script {
           sh 'cd flask'
-          dockerImage = docker.build "$dockerhub_USR/bflask" "bflask"
+          dockerImage = docker.build "flask" "$dockerhub_USR/bflask" 
           sh 'cd -'
         }
       }
