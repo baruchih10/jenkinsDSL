@@ -17,15 +17,7 @@ pipeline {
       steps{
         script {
           dockerImage = docker.build("$dockerhub_USR/bflask", "./flask")
-        }
-      }
-    }
-    stage('Deploy Image') {
-      steps{
-        script {
-           docker.withRegistry('', $dockerhub_USR ) {
-              image.push(latest)
-            }  
+          dockerImage.push()
         }
       }
     }
