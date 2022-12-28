@@ -23,7 +23,7 @@ pipeline {
     stage('Deploy Image') {
       steps{
         script {
-           docker.withRegistry('dockerhub', 'dockerhub' ) {
+           docker.withRegistry('', $dockerhub_USR ) {
               image.push(latest)
             }  
         }
