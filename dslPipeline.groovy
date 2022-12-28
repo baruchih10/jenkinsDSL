@@ -58,18 +58,30 @@ pipeline {
         
 			}
 		}
-
-    stage('Build') {
-      steps {
-          echo 'Building... flaskImageBuild'
-          sh 'docker build -t bflask ./flask'
-          sh 'docker tag bflask:latest bflask/bflask:1.0'
-          sh 'docker push bflask/bflask:1.0'
+ 
+    stage('Building & Pushing image') {
+      steps{
+        script {
+          dockerImage = docker.build("$dockerhub_USR/bflask", "./flask")
+          dockerImage.push()
+        }
       }
     }
+
+    
   }
 }
 """)
+
+// stage('Build') {
+//       steps {
+//           echo 'Building... flaskImageBuild'
+//           sh 'docker build -t bflask ./flask'
+//           sh 'docker tag bflask:latest bflask/bflask:1.0'
+//           sh 'docker push bflask/bflask:1.0'
+//       }
+//     }
+
 // buildDockerImage(bflask ./flask)
 // dockerImage = docker.build bflask ./flask
           // docker build -t bflask ./flask

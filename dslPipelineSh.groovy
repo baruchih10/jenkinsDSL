@@ -13,7 +13,7 @@ pipeline {
 			}
 		}
     
-    stage('Building image') {
+    stage('Build and push  flas') {
       steps{
         script {
           dockerImage = docker.build("$dockerhub_USR/bflask", "./flask")
@@ -25,12 +25,10 @@ pipeline {
     
    
     stage('Build and push nginx') {
-      steps {
-        dependsOn 'Build and push flask'
+      steps{
         script {
-          sh 'docker build -t bnginx -f ./nginx'
-          sh 'docker tag bnginx:latest bnginx/bnginx:1.0'
-          sh 'docker push bnginx/bnginx:1.0'
+          dockerImage = docker.build("$dockerhub_USR/bnginx", "./nginx")
+          dockerImage.push()
         }
       }
     }
