@@ -4,6 +4,7 @@ pipeline {
     dockerhub = credentials('dockerhub')
     registryCredential = 'dockerhub'
     dockerImage = ''
+    DOCKER='docker -H unix:///var/run/docker.sock'
   }
   
   stages {
