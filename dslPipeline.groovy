@@ -51,14 +51,12 @@ pipeline {
     
     stage('DockerHub Build and push') {
 			steps {
-        """
         script.withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]){
           dockerImageFlask = docker.build("$USERNAME/bflask", "./flask")
           dockerImageNginx = docker.build("$USERNAME/bnginx", "./nginx")
           dockerImageFlask.push()
           dockerImageNginx.push()
         }
-        """
 			}
 		}
      
