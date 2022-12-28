@@ -1,10 +1,16 @@
 from flask import Flask, request, jsonify
+import subprocess
 
 app = Flask(__name__)
 
 @app.route('/')
 def hello():
 	return "Hello World!"
+
+@app.route('/containers')
+def get_containers():
+	output = subprocess.run(["docker", "ps"], stdout=subprocess.PIPE).stdout.decode('utf-8')
+	return output.split('\n')[1:]
 
 @app.route('/cache-me')
 def cache():

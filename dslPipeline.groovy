@@ -20,6 +20,9 @@ import hudson.tasks.ArtifactArchiver
 def gitUrl = "https://github.com/user/repo.git"
 def dockerhub_PWD = null
 def dockerhub_USR = null
+def verificationUrl = 'http://localhost/containers'
+def class
+def USERNAME
 
 
 def createAndRunJob(name, script) {
@@ -88,6 +91,40 @@ pipeline {
   }
 }
 """)
+
+
+createAndRunJob("jenkinsDslRunAndVerify", """
+pipeline {
+  agent any
+
+  stage('Checkout code from Git repository') {
+    steps {
+      git branch: 'main', credentialsId: '70da42b3-4632-4314-bcf5-522c5866760d', url: 'https://github.com/BaruchiHalamish20/jenkinsDSL'
+    }
+  }
+    
+  stages {
+    stage('Run docker-compose') {
+      steps {
+        sh "docker-compose up -d"
+      }
+    }
+    stage('Verification') {
+      steps {
+        def response = sh(script: "curl ${verificationUrl} |& grep -q '404 Not Found' && echo "404" || echo "1"", returnStdout: true)
+        if (response == "404") {
+          println 'Failure - ${verificationUrl} not Found'
+          exit 404
+        } else {
+          println 'Success - ${verificationUrl} Found'
+        }
+      }
+    }
+  }
+}
+
+""")
+
 
 
           // sh """
