@@ -21,7 +21,6 @@ def gitUrl = "https://github.com/user/repo.git"
 def dockerhub_PWD = null
 def dockerhub_USR = null
 def verificationUrl = 'http://localhost/containers'
-def class = null
 def USERNAME = null
 
 
@@ -54,7 +53,7 @@ pipeline {
     
     stage('DockerHub Build and push') {
 			steps {
-        script.withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]){
+        script.withCredentials([[class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]){
           dockerImageFlask = docker.build("$USERNAME/bflask", "./flask")
           dockerImageFlask.push()
         }
@@ -81,7 +80,7 @@ pipeline {
     
     stage('DockerHub Build and push') {
 			steps {
-        script.withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]){
+        script.withCredentials([[class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]){
           dockerImageNginx = docker.build("$USERNAME/bnginx", "./nginx")
           dockerImageNginx.push()
         }
