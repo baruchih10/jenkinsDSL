@@ -49,30 +49,23 @@ pipeline {
       }
     }
     
-    stage('Login') {
+    stage('DockerHub Build and push') {
 			steps {
         script.withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']])
-          sh """
-            echo uname=$USERNAME pwd=$PASSWORD
-          """ 
-        
+          dockerImageFlask = docker.build("$USERNAME/bflask", "./flask")
+          dockerImageNginx = docker.build("$USERNAME/bnginx", "./nginx")
+          dockerImageFlask.push()
+          dockerImageNginx.push()
 			}
 		}
- 
-    stage('Building & Pushing image') {
-      steps{
-        script {
-          dockerImage = docker.build("$dockerhub_USR/bflask", "./flask")
-          dockerImage.push()
-        }
-      }
-    }
-
-    
+     
   }
 }
 """)
 
+          // sh """
+          //   echo uname=$USERNAME pwd=$PASSWORD
+          // """ 
 // stage('Build') {
 //       steps {
 //           echo 'Building... flaskImageBuild'
@@ -89,31 +82,4 @@ pipeline {
           //   dockerImage.push("$BUILD_NUMBER")
           //    dockerImage.push('latest')
           // }
-
-
-createAndRunJob("njinxImageBuild", """
-pipeline {
-  agent any
-  stages {
-    stage('Build') {
-      steps {
-        echo 'Building... njinxImageBuild'
-      }
-    }
-  }
-}
-""")
-
-createAndRunJob("executeEnvironments", """
-pipeline {
-  agent any
-  stages {
-    stage('Deploy') {
-      steps {
-        echo 'Deploying & running using ssh ...'
-      }
-    }
-  }
-}
-""")
 
