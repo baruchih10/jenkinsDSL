@@ -84,9 +84,11 @@ pipeline {
     
     stage('DockerHub Build and push') {
 			steps {
-        script.withCredentials([[$stringClass: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]){
-          dockerImageNginx = docker.build("$stringUsername/bnginx", "./nginx")
-          dockerImageNginx.push()
+        script {
+          withCredentials([[$stringClass: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]){
+            dockerImageNginx = docker.build("$stringUsername/bnginx", "./nginx")
+            dockerImageNginx.push()
+          }
         }
 			}
 		}
