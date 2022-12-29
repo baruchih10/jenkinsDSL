@@ -6,6 +6,7 @@ RUN apk add bash
 # Add nginx.conf to container
 COPY --chown=nginx:nginx nginx.conf /etc/nginx/nginx.conf
 COPY --chown=nginx:nginx start.sh /app/start.sh
+COPY default.conf /tmp/default.conf
 
 # set workdir
 WORKDIR /app
