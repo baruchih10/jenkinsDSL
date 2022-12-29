@@ -59,12 +59,11 @@ def runDependendJobs(){
   def downstreamProject = Hudson.instance.getItem("jenkinsDslRunAndVerify")
 
 
-  if (upstreamProject1 != null && upstreamProject2 != null && downstreamProject != null) {
-   // trigger builds for the upstream projects
+ if (upstreamProject1 != null && upstreamProject2 != null && downstreamProject != null) {
+    // trigger builds for the upstream projects
     upstreamProject1.scheduleBuild(new Cause.UserIdCause())
     upstreamProject2.scheduleBuild(new Cause.UserIdCause())
 
-     sleep(1000)
     // wait for the upstream builds to complete
     def build1 = getLastCompletedBuild(upstreamProject1)
     def build2 = getLastCompletedBuild(upstreamProject2)
