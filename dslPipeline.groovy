@@ -56,7 +56,7 @@ pipeline {
 			steps {
         script {
           withCredentials([[$stringClass: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhubc', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]){
-            dockerImageFlask = docker.build("$stringUsername/bflask", "./flask")
+            dockerImageFlask = docker.build("$stringUsername/bflask:1.0", "./flask")
             dockerImageFlask.push()
           }
         }
@@ -86,7 +86,7 @@ pipeline {
 			steps {
         script {
           withCredentials([[$stringClass: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhubc', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]){
-            dockerImageNginx = docker.build("$stringUsername/bnginx", "./nginx")
+            dockerImageNginx = docker.build("$stringUsername/bnginx:1.0", "./nginx")
             dockerImageNginx.push()
           }
         }
