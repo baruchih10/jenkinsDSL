@@ -42,19 +42,15 @@ def createJob(name, script) {
 }
 
 
-@NonCPS
 def getLastCompletedBuild(project) {
     println "getLastCompletedBuild ... "
     def prevCompletedBuild = project.getLastCompletedBuild()
-    def lastCompletedBuild = null
+    def lastCompletedBuild = project.getLastCompletedBuild()
         
-    while ( lastCompletedBuild == null ) {
+    while ( lastCompletedBuild == null || prevCompletedBuild == lastCompletedBuild ) {
         sleep(100)
         println "waiting ... "
         lastCompletedBuild = project.getLastCompletedBuild()
-        if ( prevCompletedBuild == lastCompletedBuild){
-          lastCompletedBuild = null
-        }
     }
     return lastCompletedBuild
 }
