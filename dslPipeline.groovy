@@ -49,9 +49,11 @@ def getLastCompletedBuild(project) {
     def previousBuild = lastCompletedBuild
 
     println "${lastCompletedBuild} "
-    while ( lastCompletedBuild == previousBuild || lastCompletedBuild == null ) {
-        sleep(1000)
-         println "waiting ... "
+    println "${previousBuild} "
+    
+    while ( lastCompletedBuild == null ) {
+        sleep(100)
+        println "waiting ... "
         lastCompletedBuild = project.getLastCompletedBuild()
     }
     return lastCompletedBuild
