@@ -39,7 +39,7 @@ def createAndRunJob(name, script) {
   println "${name} invoked"
 }
 
-createAndRunJob("flaskImageBuild", """
+createAndRunJob("flaskImage", """
 pipeline {
   agent any
   environment {
@@ -69,7 +69,7 @@ pipeline {
 """)
 
 
-createAndRunJob("nginxImageBuild", """
+createAndRunJob("nginxImage", """
 pipeline {
   agent any
   environment {
@@ -111,11 +111,15 @@ pipeline {
     stage('Run docker-compose') {
       steps {
         sh "docker-compose up -d"
+        sh "date" 
+        sh "echo 'docker-compose'"
       }
     }
     stage('Verification') {
       steps {
         script {
+          sh "date" 
+          sh "echo 'verification'"
           def response = sh(script: "curl ${verificationUrl} |& grep -q '404 Not Found' && echo '404' || echo '1'", returnStdout: true)
           if (response == "404") {
             println 'Failure - ${verificationUrl} not Found'
