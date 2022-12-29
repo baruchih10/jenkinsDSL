@@ -55,7 +55,7 @@ pipeline {
     stage('DockerHub Build and push') {
 			steps {
         script {
-          withCredentials([[$stringClass: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]){
+          withCredentials([[$stringClass: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhubc', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]){
             dockerImageFlask = docker.build("$stringUsername/bflask", "./flask")
             dockerImageFlask.push()
           }
@@ -85,7 +85,7 @@ pipeline {
     stage('DockerHub Build and push') {
 			steps {
         script {
-          withCredentials([[$stringClass: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]){
+          withCredentials([[$stringClass: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhubc', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]){
             dockerImageNginx = docker.build("$stringUsername/bnginx", "./nginx")
             dockerImageNginx.push()
           }
@@ -134,26 +134,4 @@ pipeline {
 }
 
 """)
-
-
-
-          // sh """
-          //   echo uname=$USERNAME pwd=$PASSWORD
-          // """ 
-// stage('Build') {
-//       steps {
-//           echo 'Building... flaskImageBuild'
-//           sh 'docker build -t bflask ./flask'
-//           sh 'docker tag bflask:latest bflask/bflask:1.0'
-//           sh 'docker push bflask/bflask:1.0'
-//       }
-//     }
-
-// buildDockerImage(bflask ./flask)
-// dockerImage = docker.build bflask ./flask
-          // docker build -t bflask ./flask
-          // docker.withRegistry( '', registryCredential ) {
-          //   dockerImage.push("$BUILD_NUMBER")
-          //    dockerImage.push('latest')
-          // }
 

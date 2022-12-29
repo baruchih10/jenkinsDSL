@@ -1,8 +1,7 @@
 pipeline {
   agent any
   environment {
-    dockerhub = credentials('dockerhub')
-    registryCredential = 'dockerhub'
+    dockerhub = credentials('dockerhubc')
     dockerImage = ''
   }
   
