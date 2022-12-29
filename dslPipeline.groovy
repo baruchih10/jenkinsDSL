@@ -41,6 +41,17 @@ def createJob(name, script) {
   println "${name} invoked"
 }
 
+
+@NonCPS
+def getLastCompletedBuild(project) {
+    def lastCompletedBuild = project.getLastCompletedBuild()
+    while (lastCompletedBuild == null) {
+        sleep(1000)
+        lastCompletedBuild = project.getLastCompletedBuild()
+    }
+    return lastCompletedBuild
+}
+
 def runDependendJobs(){
   
   def upstreamProject1 = Hudson.instance.getItem("flaskImage")
@@ -49,18 +60,17 @@ def runDependendJobs(){
 
 
   if (upstreamProject1 != null && upstreamProject2 != null && downstreamProject != null) {
-       // trigger builds for the upstream projects
+   // trigger builds for the upstream projects
     upstreamProject1.scheduleBuild(new Cause.UserIdCause())
     upstreamProject2.scheduleBuild(new Cause.UserIdCause())
 
     // wait for the upstream builds to complete
-    while (upstreamProject1.getLastBuild().isBuilding() || upstreamProject2.getLastBuild().isBuilding()) {
-        sleep(1000)
-    }
+    def build1 = getLastCompletedBuild(upstreamProject1)
+    def build2 = getLastCompletedBuild(upstreamProject2)
 
     // check the build results for the upstream projects
-    def build1Result = upstreamProject1.getLastBuild().getResult()
-    def build2Result = upstreamProject2.getLastBuild().getResult()
+    def build1Result = build1.getResult()
+    def build2Result = build2.getResult()
 
     if (build1Result == Result.SUCCESS && build2Result == Result.SUCCESS) {
         // trigger the downstream build
