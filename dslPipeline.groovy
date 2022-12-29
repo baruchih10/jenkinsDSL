@@ -43,8 +43,8 @@ def createJob(name, script) {
 
 def getLastCompletedBuild(project) {
     println "getLastCompletedBuild ... "
-    def prevCompletedBuild = project.getLastCompletedBuild()
-    def lastCompletedBuild = project.getLastCompletedBuild()
+    prevCompletedBuild = project.getLastCompletedBuild()
+    lastCompletedBuild = project.getLastCompletedBuild()
         
     while ( lastCompletedBuild == null || prevCompletedBuild == lastCompletedBuild ) {
         sleep(100)
