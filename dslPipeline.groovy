@@ -145,7 +145,6 @@ pipeline {
 createJob("jenkinsDslRunAndVerify", """
 pipeline {
   agent any
-
   stages {
     stage('Checkout code from Git repository') {
       steps {
@@ -160,7 +159,6 @@ pipeline {
       }
     }
     stage('Verification') {
-      dependsOn 'Run docker-compose'
       steps {
         script {
           sh "date" 
