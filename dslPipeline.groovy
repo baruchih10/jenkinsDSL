@@ -41,7 +41,6 @@ def createJob(name, script) {
   println "${name} created"
 }
 
-
 def getLastCompletedBuild(project) {
     println "getLastCompletedBuild ... "
     def prevCompletedBuild = project.getLastCompletedBuild()
