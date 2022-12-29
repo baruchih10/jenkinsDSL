@@ -10,6 +10,8 @@ import org.jenkinsci.plugins.workflow.job.WorkflowJob
 import hudson.model.FreeStyleProject
 import hudson.tasks.ArtifactArchiver
 
+import hudson.plugins.parameterizedtrigger.*
+
 // groovy script to run 3 jobs:
 // flaskImageBuild
 // njinxImageBuild
@@ -50,30 +52,26 @@ def runDependendJobs(){
       // create a parameterized build trigger for upstream projects
       def buildTrigger = new hudson.plugins.parameterizedtrigger.BuildTrigger(
           "flaskImage,nginxImage",
-          new hudson.plugins.parameterizedtrigger.ResultCondition(
-              hudson.plugins.parameterizedtrigger.ResultCondition.SUCCESS,
-              hudson.plugins.parameterizedtrigger.ResultCondition.SUCCESS
-          )
+          new AllBuildResults()
       )
 
-      // add the build trigger to the downstream project
-      downstreamProject.getPublishersList().add(buildTrigger)
+    // add the build trigger to the downstream project
+    downstreamProject.getPublishersList().add(buildTrigger)
 
-      // trigger builds for the upstream projects
-      upstreamProject1.scheduleBuild(new hudson.model.Cause.UserIdCause())
-      upstreamProject2.scheduleBuild(new hudson.model.Cause.UserIdCause())
-      println "flaskImage + nginxImage invoked"
+    // trigger builds for the upstream projects
+    upstreamProject1.scheduleBuild(new Cause.UserIdCause())
+    upstreamProject2.scheduleBuild(new Cause.UserIdCause())
 
-      // wait for the upstream builds to complete
-      def queue = Hudson.instance.queue
-      def build1 = queue.getItem(upstreamProject1)
-      def build2 = queue.getItem(upstreamProject2)
-      while (build1.isBuilding() || build2.isBuilding()) {
-          sleep(1000)
-      }
+    // wait for the upstream builds to complete
+    def queue = Hudson.instance.queue
+    def build1 = queue.getItem(upstreamProject1)
+    def build2 = queue.getItem(upstreamProject2)
+    while (build1.isBuilding() || build2.isBuilding()) {
+        sleep(1000)
+    }
 
-      // trigger the downstream build
-      downstreamProject.scheduleBuild(new hudson.model.Cause.UpstreamCause(build1))
+    // trigger the downstream build
+    downstreamProject.scheduleBuild(new Cause.UpstreamCause(build1))
   }
 }
 
