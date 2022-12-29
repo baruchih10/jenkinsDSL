@@ -25,7 +25,7 @@ def stringClass = '$class'
 def stringUsername = '$USERNAME'
 
 
-def createAndRunJob(name, script) {
+def createJob(name, script) {
   def instance = Jenkins.getInstance()
   def job = instance.getItem(name)
   
@@ -35,11 +35,50 @@ def createAndRunJob(name, script) {
 
   job.definition = new CpsFlowDefinition(script, true)
   job.save()
-  build = job.scheduleBuild()
+
   println "${name} invoked"
 }
 
-createAndRunJob("flaskImage", """
+def runDependendJobs(){
+  
+  def upstreamProject1 = Hudson.instance.getItem("flaskImage")
+  def upstreamProject2 = Hudson.instance.getItem("nginxImage")
+  def downstreamProject = Hudson.instance.getItem("jenkinsDslRunAndVerify")
+
+
+  if (upstreamProject1 != null && upstreamProject2 != null && downstreamProject != null) {
+      // create a parameterized build trigger for upstream projects
+      def buildTrigger = new hudson.plugins.parameterizedtrigger.BuildTrigger(
+          "flaskImage,nginxImage",
+          new hudson.plugins.parameterizedtrigger.ResultCondition(
+              hudson.plugins.parameterizedtrigger.ResultCondition.SUCCESS,
+              hudson.plugins.parameterizedtrigger.ResultCondition.SUCCESS
+          )
+      )
+
+      // add the build trigger to the downstream project
+      downstreamProject.getPublishersList().add(buildTrigger)
+
+      // trigger builds for the upstream projects
+      upstreamProject1.scheduleBuild(new hudson.model.Cause.UserIdCause())
+      upstreamProject2.scheduleBuild(new hudson.model.Cause.UserIdCause())
+      println "flaskImage + nginxImage invoked"
+
+      // wait for the upstream builds to complete
+      def queue = Hudson.instance.queue
+      def build1 = queue.getItem(upstreamProject1)
+      def build2 = queue.getItem(upstreamProject2)
+      while (build1.isBuilding() || build2.isBuilding()) {
+          sleep(1000)
+      }
+
+      // trigger the downstream build
+      downstreamProject.scheduleBuild(new hudson.model.Cause.UpstreamCause(build1))
+  }
+}
+
+
+createJob("flaskImage", """
 pipeline {
   agent any
   environment {
@@ -69,7 +108,7 @@ pipeline {
 """)
 
 
-createAndRunJob("nginxImage", """
+createJob("nginxImage", """
 pipeline {
   agent any
   environment {
@@ -97,7 +136,7 @@ pipeline {
 }
 """)
 
-createAndRunJob("jenkinsDslRunAndVerify", """
+createJob("jenkinsDslRunAndVerify", """
 pipeline {
   agent any
 
@@ -135,3 +174,4 @@ pipeline {
 
 """)
 
+runDependendJobs()
