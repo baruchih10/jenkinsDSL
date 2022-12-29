@@ -97,7 +97,6 @@ pipeline {
 }
 """)
 
-
 createAndRunJob("jenkinsDslRunAndVerify", """
 pipeline {
   agent any
