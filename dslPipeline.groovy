@@ -54,7 +54,10 @@ def getLastCompletedBuild(project) {
     while ( lastCompletedBuild == previousBuild || lastCompletedBuild == null ) {
         sleep(100)
         println "waiting ... "
-        lastCompletedBuild = project.getLastCompletedBuild()
+        checkLastCompletedBuild = project.getLastCompletedBuild()
+        if (checkLastCompletedBuild == lastCompletedBuild){
+          lastCompletedBuild =checkLastCompletedBuild
+        }
     }
     return lastCompletedBuild
 }
@@ -64,7 +67,6 @@ def runDependendJobs(){
   def upstreamProject1 = Hudson.instance.getItem("flaskImage")
   def upstreamProject2 = Hudson.instance.getItem("nginxImage")
   def downstreamProject = Hudson.instance.getItem("jenkinsDslRunAndVerify")
-
 
  if (upstreamProject1 != null && upstreamProject2 != null && downstreamProject != null) {
     // trigger builds for the upstream projects
