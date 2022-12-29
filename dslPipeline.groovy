@@ -46,6 +46,7 @@ def createJob(name, script) {
 def getLastCompletedBuild(project) {
     println "getLastCompletedBuild ... "
     def lastCompletedBuild = project.getLastCompletedBuild()
+    println "${lastCompletedBuild} "
     while (lastCompletedBuild == null) {
         sleep(1000)
          println "waiting ... "
