@@ -69,6 +69,7 @@ def runDependendJobs(){
         // trigger the downstream build
         downstreamProject.scheduleBuild(new Cause.UpstreamCause(build1))
     }
+  }
 }
 
 
