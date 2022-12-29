@@ -44,6 +44,7 @@ def createJob(name, script) {
 
 @NonCPS
 def getLastCompletedBuild(project) {
+    println "getLastCompletedBuild ... "
     def lastCompletedBuild = project.getLastCompletedBuild()
     while (lastCompletedBuild == null) {
         sleep(1000)
