@@ -41,12 +41,13 @@ def createJob(name, script) {
   println "${name} created"
 }
 
+
+@NonCPS
 def getLastCompletedBuild(project) {
     println "getLastCompletedBuild ... "
-    prevCompletedBuild = project.getLastCompletedBuild()
-    lastCompletedBuild = project.getLastCompletedBuild()
-        
-    while ( lastCompletedBuild == null || prevCompletedBuild == lastCompletedBuild ) {
+    def lastCompletedBuild = project.getLastCompletedBuild()
+    
+    while ( lastCompletedBuild == null ) {
         sleep(100)
         println "waiting ... "
         lastCompletedBuild = project.getLastCompletedBuild()
@@ -60,7 +61,6 @@ def runDependendJobs(){
   def upstreamProject2 = Hudson.instance.getItem("nginxImage")
   def downstreamProject = Hudson.instance.getItem("jenkinsDslRunAndVerify")
 
-
  if (upstreamProject1 != null && upstreamProject2 != null && downstreamProject != null) {
     // trigger builds for the upstream projects
     upstreamProject1.scheduleBuild(new Cause.UserIdCause())
@@ -71,7 +71,7 @@ def runDependendJobs(){
     def build1 = getLastCompletedBuild(upstreamProject1)
     def build2 = getLastCompletedBuild(upstreamProject2)
 
-     println "After Builds ar done ... "
+    println "After Builds ar done ... "
     // check the build results for the upstream projects
     def build1Result = build1.getResult()
     def build2Result = build2.getResult()
