@@ -64,6 +64,7 @@ def runDependendJobs(){
     upstreamProject1.scheduleBuild(new Cause.UserIdCause())
     upstreamProject2.scheduleBuild(new Cause.UserIdCause())
 
+     sleep(1000)
     // wait for the upstream builds to complete
     def build1 = getLastCompletedBuild(upstreamProject1)
     def build2 = getLastCompletedBuild(upstreamProject2)
