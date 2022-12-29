@@ -116,11 +116,12 @@ pipeline {
       }
     }
     stage('Verification') {
+      dependsOn 'Run docker-compose'
       steps {
         script {
           sh "date" 
           sh "echo 'verification'"
-          def response = sh(script: "curl ${verificationUrl} |& grep -q '404 Not Found' && echo '404' || echo '1'", returnStdout: true)
+          def response = sh(script: "curl ${verificationUrl} | grep -q '404 Not Found' && echo '404' || echo '1'", returnStdout: true)
           if (response == "404") {
             println 'Failure - ${verificationUrl} not Found'
             exit 404
