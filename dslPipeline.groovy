@@ -38,7 +38,7 @@ def createJob(name, script) {
   job.definition = new CpsFlowDefinition(script, true)
   job.save()
 
-  println "${name} invoked"
+  println "${name} created"
 }
 
 
@@ -47,6 +47,7 @@ def getLastCompletedBuild(project) {
     def lastCompletedBuild = project.getLastCompletedBuild()
     while (lastCompletedBuild == null) {
         sleep(1000)
+         println "waiting ... "
         lastCompletedBuild = project.getLastCompletedBuild()
     }
     return lastCompletedBuild
@@ -68,6 +69,7 @@ def runDependendJobs(){
     def build1 = getLastCompletedBuild(upstreamProject1)
     def build2 = getLastCompletedBuild(upstreamProject2)
 
+     println "After Builds ar done ... "
     // check the build results for the upstream projects
     def build1Result = build1.getResult()
     def build2Result = build2.getResult()
