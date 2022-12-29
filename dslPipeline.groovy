@@ -49,16 +49,7 @@ def runDependendJobs(){
 
 
   if (upstreamProject1 != null && upstreamProject2 != null && downstreamProject != null) {
-      // create a parameterized build trigger for upstream projects
-      def buildTrigger = new hudson.plugins.parameterizedtrigger.BuildTrigger(
-          "flaskImage,nginxImage",
-          new AllBuildResults()
-      )
-
-    // add the build trigger to the downstream project
-    downstreamProject.getPublishersList().add(buildTrigger)
-
-    // trigger builds for the upstream projects
+       // trigger builds for the upstream projects
     upstreamProject1.scheduleBuild(new Cause.UserIdCause())
     upstreamProject2.scheduleBuild(new Cause.UserIdCause())
 
@@ -70,9 +61,14 @@ def runDependendJobs(){
         sleep(1000)
     }
 
-    // trigger the downstream build
-    downstreamProject.scheduleBuild(new Cause.UpstreamCause(build1))
-  }
+    // check the build results for the upstream projects
+    def build1Result = build1.getResult()
+    def build2Result = build2.getResult()
+
+    if (build1Result == Result.SUCCESS && build2Result == Result.SUCCESS) {
+        // trigger the downstream build
+        downstreamProject.scheduleBuild(new Cause.UpstreamCause(build1))
+    }
 }
 
 
