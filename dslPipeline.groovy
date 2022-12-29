@@ -153,6 +153,7 @@ pipeline {
     }  
     stage('Run docker-compose') {
       steps {
+        sh " docker-compose rm -f"  
         sh "docker-compose up -d"
         sh "date" 
         sh "echo 'docker-compose'"
