@@ -49,7 +49,7 @@ def getLastCompletedBuild(project) {
     def lastCompletedBuild = null
     
     println "${lastCompletedBuild} "
-    println "${previousBuild} "
+    println "${prevCompletedBuild} "
     
     while ( lastCompletedBuild == null ) {
         sleep(100)
