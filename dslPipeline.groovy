@@ -54,16 +54,13 @@ def runDependendJobs(){
     upstreamProject2.scheduleBuild(new Cause.UserIdCause())
 
     // wait for the upstream builds to complete
-    def queue = Hudson.instance.queue
-    def build1 = queue.getItem(upstreamProject1)
-    def build2 = queue.getItem(upstreamProject2)
-    while (build1.isBuilding() || build2.isBuilding()) {
+    while (upstreamProject1.getLastBuild().isBuilding() || upstreamProject2.getLastBuild().isBuilding()) {
         sleep(1000)
     }
 
     // check the build results for the upstream projects
-    def build1Result = build1.getResult()
-    def build2Result = build2.getResult()
+    def build1Result = upstreamProject1.getLastBuild().getResult()
+    def build2Result = upstreamProject2.getLastBuild().getResult()
 
     if (build1Result == Result.SUCCESS && build2Result == Result.SUCCESS) {
         // trigger the downstream build
