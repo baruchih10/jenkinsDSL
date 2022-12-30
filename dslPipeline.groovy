@@ -51,7 +51,8 @@ def synchronizedProject (project) {
     long timeout = 30 * 1000  // 30 seconds in milliseconds
     while ((System.currentTimeMillis() - startTime < timeout)) {
         try {
-            wait(timeout - (System.currentTimeMillis() - startTime))
+            // wait(timeout - (System.currentTimeMillis() - startTime))
+            sleep(10)
             isInProgress = project.getLastBuild().isInProgress()
             println "waiting to sync isInProgress is ${isInProgress}"
         } catch (InterruptedException e) {
