@@ -42,6 +42,7 @@ def createJob(name, script) {
   println "${name} created"
 }
 
+@NonCPS
 def synchronizedProject (project) {
     def isInProgress = project.getLastBuild().isInProgress()
     println "isInProgress? ${isInProgress}"
