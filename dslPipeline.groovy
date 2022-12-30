@@ -34,11 +34,7 @@ def createJob(name, script) {
 
   if ( job == null) {
     job = instance.createProject(WorkflowJob, name)
-  } else {
-    instance.remove(job)
-    job = instance.createProject(WorkflowJob, name)
-  }
-
+  } 
 
   job.definition = new CpsFlowDefinition(script, true)
   job.save()
@@ -158,7 +154,8 @@ pipeline {
     }  
     stage('Run docker-compose') {
       steps {
-        sh "sed -i s/JENKINS_SERVER_IP_ORIG/`cat /tmp/JENKINS_SERVER_IP`/ docker-compose " 
+        sh "pwd"
+        sh "sed -i s/JENKINS_SERVER_IP_ORIG/`cat /tmp/JENKINS_SERVER_IP`/ docker-compose.yaml" 
         sh " docker-compose rm -f"  
         sh "docker-compose up -d"
         sh "date" 
