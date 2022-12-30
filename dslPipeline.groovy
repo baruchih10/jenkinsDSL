@@ -96,7 +96,7 @@ def runDependendJobs(){
     def prjSecond = upstreamProject2.scheduleBuild(new Cause.UserIdCause())
 
     if(prjOne){
-      synchronizedProject(prjOne)
+      synchronizedProject(upstreamProject1)
     }
       
     // wait for the upstream builds to complete
