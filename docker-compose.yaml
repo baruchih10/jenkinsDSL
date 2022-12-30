@@ -6,6 +6,8 @@ services:
     restart: always
     ports: 
       - '8900:8000'
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
     healthcheck:
       test: ["CMD-SHELL", "curl --silent --fail localhost:8000/flask-health-check || exit 1"]
       interval: 10s
