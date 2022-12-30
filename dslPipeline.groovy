@@ -49,10 +49,10 @@ def getLastCompletedBuild(project, isScheduled) {
     println "Build scheduled? ${isScheduled}"
     if (isScheduled){
        println "so need to sleep"
-       sleep(20)
+      
     } 
 
-    def lastCompletedBuild = project.getLastCompletedBuild()  
+    def lastCompletedBuild = project.getLastBuild()  
     def isInProgress = lastCompletedBuild.isInProgress()
      println "isInProgress ...${isInProgress} "
     
