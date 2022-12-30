@@ -44,8 +44,11 @@ def createJob(name, script) {
 
 
 @NonCPS
-def getLastCompletedBuild(project) {
+def getLastCompletedBuild(project, isScheduled) {
     println "getLastCompletedBuild ...1 "
+    if(!isScheduled) {
+      println "Build was not scheduled"
+    } 
     
     def lastCompletedBuild = project.getLastCompletedBuild()  
     def isInProgress = lastCompletedBuild.isInProgress()
@@ -71,11 +74,9 @@ def runDependendJobs(){
     def prjSecond = upstreamProject2.scheduleBuild(new Cause.UserIdCause())
 
     // wait for the upstream builds to complete
-    println "isInProgress ...${prjOne} "
-    println "isInProgress ...${prjSecond.isInProgress()} "
 
-    def build1 = getLastCompletedBuild(upstreamProject1)
-    def build2 = getLastCompletedBuild(upstreamProject2)
+    def build1 = getLastCompletedBuild(upstreamProject1, prjOne)
+    def build2 = getLastCompletedBuild(upstreamProject2, prjSecond)
 
     println "Builds done ... "
     // check the build results for the upstream projects
