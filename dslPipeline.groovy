@@ -56,7 +56,6 @@ def getLastCompletedBuild(project, isScheduled) {
      println "lastBuild ...${lastCompletedBuild} "
      
     def isInProgress = lastCompletedBuild.isInProgress()
-     println "isInProgress ...${isInProgress} "
     
     while ( lastCompletedBuild == null ) {
         sleep(100)
@@ -79,7 +78,7 @@ def runDependendJobs(){
 
     // wait for the upstream builds to complete
 
-    // def build1 = getLastCompletedBuild(upstreamProject1, prjOne)
+    def build1 = getLastCompletedBuild(upstreamProject1, prjOne)
     def build2 = getLastCompletedBuild(upstreamProject2, prjSecond)
 
     println "Builds done ... "
