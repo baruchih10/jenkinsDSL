@@ -47,6 +47,9 @@ def createJob(name, script) {
 def getLastCompletedBuild(project) {
     println "getLastCompletedBuild ... "
     def lastCompletedBuild = project.getLastCompletedBuild()
+    def isInProgress = lastCompletedBuild.isInProgress()
+    
+    println "isInProgress ... ${isInProgress}"
     
     while ( lastCompletedBuild == null ) {
         sleep(100)
@@ -67,7 +70,7 @@ def runDependendJobs(){
     upstreamProject1.scheduleBuild(new Cause.UserIdCause())
     upstreamProject2.scheduleBuild(new Cause.UserIdCause())
 
-    sleep(150)    
+    sleep(20)    
     // wait for the upstream builds to complete
 
     def build1 = getLastCompletedBuild(upstreamProject1)
