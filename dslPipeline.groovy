@@ -67,9 +67,6 @@ def getLastCompletedBuild(project, isScheduled) {
     println "getLastCompletedBuild ...1 "
     println "Build scheduled? ${isScheduled}"
 
-    if(isScheduled){
-      synchronizedProject(project)
-    }
     // def lastCompletedBuild = project.getLastCompletedBuild()  
     def lastCompletedBuild = project.getLastCompletedBuild() 
     def lastBuild = project.getLastBuild()  
@@ -98,11 +95,14 @@ def runDependendJobs(){
     def prjOne = upstreamProject1.scheduleBuild(new Cause.UserIdCause())
     def prjSecond = upstreamProject2.scheduleBuild(new Cause.UserIdCause())
 
+    if(prjOne){
+      synchronizedProject(prjOne)
+    }
       
     // wait for the upstream builds to complete
 
-    def build1 = getLastCompletedBuild(upstreamProject1, prjOne)
-    def build2 = getLastCompletedBuild(upstreamProject2, prjSecond)
+    def build1 = getLastCompletedBuild(upstreamProject1)
+    def build2 = getLastCompletedBuild(upstreamProject2)
 
     println "Builds done ... "
     // check the build results for the upstream projects
