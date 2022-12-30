@@ -45,8 +45,6 @@ def createJob(name, script) {
 
 @NonCPS
 def getLastCompletedBuild(project) {
-    @NonCPS
-    sleep(20)
     println "getLastCompletedBuild ...1 "
     
     def lastCompletedBuild = project.getLastCompletedBuild()  
@@ -73,6 +71,9 @@ def runDependendJobs(){
     upstreamProject2.scheduleBuild(new Cause.UserIdCause())
 
     // wait for the upstream builds to complete
+
+    @NonCPS
+    sleep(20)
 
     def build1 = getLastCompletedBuild(upstreamProject1)
     def build2 = getLastCompletedBuild(upstreamProject2)
