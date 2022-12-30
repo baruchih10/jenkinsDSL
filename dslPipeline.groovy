@@ -42,12 +42,34 @@ def createJob(name, script) {
   println "${name} created"
 }
 
+def synchronized (project) {
+    def isRunning = project.getLastBuild().isInProgress()
+    println "isRunning? ${isRunning}"
+
+    long startTime = System.currentTimeMillis()
+    long timeout = 30 * 1000  // 30 seconds in milliseconds
+    while (!isRunning && (System.currentTimeMillis() - startTime < timeout)) {
+        try {
+            this.wait(timeout - (System.currentTimeMillis() - startTime))
+            isRunning = project.getLastBuild().isInProgress()
+            println "waiting to sync"
+        } catch (InterruptedException e) {
+            println "ctach in while"
+            // handle interruption
+        }
+    }
+  // Perform action appropriate to condition or timeout
+}
+
 
 @NonCPS
 def getLastCompletedBuild(project, isScheduled) {
     println "getLastCompletedBuild ...1 "
     println "Build scheduled? ${isScheduled}"
 
+    if(isScheduled){
+      synchronized(project)
+    }
     // def lastCompletedBuild = project.getLastCompletedBuild()  
     def lastCompletedBuild = project.getLastCompletedBuild() 
     def lastBuild = project.getLastBuild()  
@@ -76,13 +98,7 @@ def runDependendJobs(){
     def prjOne = upstreamProject1.scheduleBuild(new Cause.UserIdCause())
     def prjSecond = upstreamProject2.scheduleBuild(new Cause.UserIdCause())
 
-    if (prjOne) {
-      println "wneed to sync"
-    } else{
-      println "was not scheduled"
-    }
-
-    
+      
     // wait for the upstream builds to complete
 
     def build1 = getLastCompletedBuild(upstreamProject1, prjOne)
