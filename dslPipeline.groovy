@@ -31,9 +31,14 @@ def createJob(name, script) {
   def instance = Jenkins.getInstance()
   def job = instance.getItem(name)
   
+
   if ( job == null) {
     job = instance.createProject(WorkflowJob, name)
+  } else {
+    instance.remove(name)
+    job = instance.createProject(WorkflowJob, name)
   }
+
 
   job.definition = new CpsFlowDefinition(script, true)
   job.save()
