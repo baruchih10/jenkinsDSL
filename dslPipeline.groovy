@@ -35,7 +35,7 @@ def createJob(name, script) {
   if ( job == null) {
     job = instance.createProject(WorkflowJob, name)
   } else {
-    instance.remove(name)
+    instance.remove(job)
     job = instance.createProject(WorkflowJob, name)
   }
 
