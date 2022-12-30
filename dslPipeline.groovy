@@ -45,6 +45,7 @@ def createJob(name, script) {
 
 @NonCPS
 def getLastCompletedBuild(project) {
+    @NonCPS
     sleep(20)
     println "getLastCompletedBuild ...1 "
     
