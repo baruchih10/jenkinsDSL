@@ -42,41 +42,11 @@ def createJob(name, script) {
   println "${name} created"
 }
 
-// def synchronizedProject (project) {
-    
-//     def isInProgress = project.getLastBuild().isInProgress()
-//     println "isInProgress? ${isInProgress}"
-
-//     // long startTime = System.currentTimeMillis()
-//     // long timeout = 30 * 1000  // 30 seconds in milliseconds
-//     // while ((System.currentTimeMillis() - startTime < timeout)) {
-//     //     try {
-//     //         // wait(timeout - (System.currentTimeMillis() - startTime))
-           
-//     //         isInProgress = project.getLastBuild().isInProgress()
-//     //         println "waiting to sync isInProgress is ${isInProgress}"
-//     //     } catch (InterruptedException e) {
-//     //         println "ctach in while"
-//     //         // handle interruption
-//     //     }
-//     // }
-//   // Perform action appropriate to condition or timeout
-// }
-
 
 @NonCPS
-def getLastCompletedBuild(project, isScheduled) {
-    println "getLastCompletedBuild ...1 "
-    println "Build scheduled? ${isScheduled}"
-
-    // def lastCompletedBuild = project.getLastCompletedBuild()  
-    def lastCompletedBuild = project.getLastCompletedBuild() 
-    def lastBuild = project.getLastBuild()  
-    
-     println "lastCompletedBuild ...${lastCompletedBuild} "
-     println "lastBuild ...${lastCompletedBuild} "
-     
-    def isInProgress = lastCompletedBuild.isInProgress()
+def getLastCompletedBuild(project) {
+    println "getLastCompletedBuild ... "
+    def lastCompletedBuild = project.getLastCompletedBuild()
     
     while ( lastCompletedBuild == null ) {
         sleep(100)
@@ -94,13 +64,10 @@ def runDependendJobs(){
 
  if (upstreamProject1 != null && upstreamProject2 != null && downstreamProject != null) {
     // trigger builds for the upstream projects
-    def prjOne = upstreamProject1.scheduleBuild(new Cause.UserIdCause())
-    def prjSecond = upstreamProject2.scheduleBuild(new Cause.UserIdCause())
+    upstreamProject1.scheduleBuild(new Cause.UserIdCause())
+    upstreamProject2.scheduleBuild(new Cause.UserIdCause())
 
-    // if(prjOne){
-    //   synchronizedProject(upstreamProject1)
-    // }
-      
+    sleep(150)    
     // wait for the upstream builds to complete
 
     def build1 = getLastCompletedBuild(upstreamProject1)
