@@ -43,16 +43,16 @@ def createJob(name, script) {
 }
 
 def synchronizedProject (project) {
-    def isRunning = project.getLastBuild().isInProgress()
-    println "isRunning? ${isRunning}"
+    def isInProgress = project.getLastBuild().isInProgress()
+    println "isInProgress? ${isInProgress}"
 
     long startTime = System.currentTimeMillis()
     long timeout = 30 * 1000  // 30 seconds in milliseconds
-    while (!isRunning && (System.currentTimeMillis() - startTime < timeout)) {
+    while ((System.currentTimeMillis() - startTime < timeout)) {
         try {
             this.wait(timeout - (System.currentTimeMillis() - startTime))
-            isRunning = project.getLastBuild().isInProgress()
-            println "waiting to sync"
+            isInProgress = project.getLastBuild().isInProgress()
+            println "waiting to sync isInProgress is ${isInProgress}"
         } catch (InterruptedException e) {
             println "ctach in while"
             // handle interruption
