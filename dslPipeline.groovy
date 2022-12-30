@@ -43,7 +43,7 @@ def createJob(name, script) {
 }
 
 def synchronizedProject (project) {
-    sleep(10)
+    
     def isInProgress = project.getLastBuild().isInProgress()
     println "isInProgress? ${isInProgress}"
 
