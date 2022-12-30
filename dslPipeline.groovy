@@ -46,10 +46,9 @@ def createJob(name, script) {
 @NonCPS
 def getLastCompletedBuild(project, isScheduled) {
     println "getLastCompletedBuild ...1 "
-    if(!isScheduled) {
-      println "Build was not scheduled"
-    } 
-    
+      println "Build scheduled? ${isScheduled}"
+     
+
     def lastCompletedBuild = project.getLastCompletedBuild()  
     def isInProgress = lastCompletedBuild.isInProgress()
      println "isInProgress ...${isInProgress} "
