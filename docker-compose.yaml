@@ -19,7 +19,7 @@ services:
     restart: always
     environment: 
       - FLASK_SERVER_ADDR=flask-app:8000
-      - JENKINS_SERVER_IP=JENKINS_SERVER_IP_ORIG
+      - JENKINS_SERVER_IP=10.0.2.15
     ports:
       - "8700:80"
     depends_on:
