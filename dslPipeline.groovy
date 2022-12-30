@@ -42,26 +42,26 @@ def createJob(name, script) {
   println "${name} created"
 }
 
-def synchronizedProject (project) {
+// def synchronizedProject (project) {
     
-    def isInProgress = project.getLastBuild().isInProgress()
-    println "isInProgress? ${isInProgress}"
+//     def isInProgress = project.getLastBuild().isInProgress()
+//     println "isInProgress? ${isInProgress}"
 
-    // long startTime = System.currentTimeMillis()
-    // long timeout = 30 * 1000  // 30 seconds in milliseconds
-    // while ((System.currentTimeMillis() - startTime < timeout)) {
-    //     try {
-    //         // wait(timeout - (System.currentTimeMillis() - startTime))
+//     // long startTime = System.currentTimeMillis()
+//     // long timeout = 30 * 1000  // 30 seconds in milliseconds
+//     // while ((System.currentTimeMillis() - startTime < timeout)) {
+//     //     try {
+//     //         // wait(timeout - (System.currentTimeMillis() - startTime))
            
-    //         isInProgress = project.getLastBuild().isInProgress()
-    //         println "waiting to sync isInProgress is ${isInProgress}"
-    //     } catch (InterruptedException e) {
-    //         println "ctach in while"
-    //         // handle interruption
-    //     }
-    // }
-  // Perform action appropriate to condition or timeout
-}
+//     //         isInProgress = project.getLastBuild().isInProgress()
+//     //         println "waiting to sync isInProgress is ${isInProgress}"
+//     //     } catch (InterruptedException e) {
+//     //         println "ctach in while"
+//     //         // handle interruption
+//     //     }
+//     // }
+//   // Perform action appropriate to condition or timeout
+// }
 
 
 @NonCPS
@@ -97,9 +97,9 @@ def runDependendJobs(){
     def prjOne = upstreamProject1.scheduleBuild(new Cause.UserIdCause())
     def prjSecond = upstreamProject2.scheduleBuild(new Cause.UserIdCause())
 
-    if(prjOne){
-      synchronizedProject(upstreamProject1)
-    }
+    // if(prjOne){
+    //   synchronizedProject(upstreamProject1)
+    // }
       
     // wait for the upstream builds to complete
 
