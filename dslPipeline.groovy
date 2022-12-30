@@ -153,6 +153,7 @@ pipeline {
     }  
     stage('Run docker-compose') {
       steps {
+        sh "sed -i s/JENKINS_SERVER_IP_ORIG/`cat /tmp/JENKINS_SERVER_IP`/ docker-compose " 
         sh " docker-compose rm -f"  
         sh "docker-compose up -d"
         sh "date" 
