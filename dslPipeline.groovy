@@ -13,7 +13,7 @@ import hudson.tasks.ArtifactArchiver
 import hudson.plugins.parameterizedtrigger.*
 
 // groovy script to run 3 jobs:
-// flaskImageBuild
+// flaskBuild
 // njinxImageBuild
 // executeEnvironments
 
@@ -58,9 +58,9 @@ def getLastCompletedBuild(project) {
 
 def runDependendJobs(){
   
-  def upstreamProject1 = Hudson.instance.getItem("flaskImage")
-  def upstreamProject2 = Hudson.instance.getItem("nginxImage")
-  def downstreamProject = Hudson.instance.getItem("jenkinsDslRunAndVerify")
+  def upstreamProject1 = Hudson.instance.getItem("flaskBuild")
+  def upstreamProject2 = Hudson.instance.getItem("nginxBuild")
+  def downstreamProject = Hudson.instance.getItem("dslRunAndVerify")
 
  if (upstreamProject1 != null && upstreamProject2 != null && downstreamProject != null) {
     // trigger builds for the upstream projects
@@ -85,7 +85,7 @@ def runDependendJobs(){
 }
 
 
-createJob("flaskImage", """
+createJob("flaskBuild", """
 pipeline {
   agent any
   environment {
@@ -115,7 +115,7 @@ pipeline {
 """)
 
 
-createJob("nginxImage", """
+createJob("nginxBuild", """
 pipeline {
   agent any
   environment {
@@ -143,7 +143,7 @@ pipeline {
 }
 """)
 
-createJob("jenkinsDslRunAndVerify", """
+createJob("dslRunAndVerify", """
 pipeline {
   agent any
   stages {
