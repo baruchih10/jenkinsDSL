@@ -42,7 +42,7 @@ def createJob(name, script) {
   println "${name} created"
 }
 
-def synchronized (project) {
+def synchronizedProject (project) {
     def isRunning = project.getLastBuild().isInProgress()
     println "isRunning? ${isRunning}"
 
@@ -68,7 +68,7 @@ def getLastCompletedBuild(project, isScheduled) {
     println "Build scheduled? ${isScheduled}"
 
     if(isScheduled){
-      synchronized(project)
+      synchronizedProject(project)
     }
     // def lastCompletedBuild = project.getLastCompletedBuild()  
     def lastCompletedBuild = project.getLastCompletedBuild() 
