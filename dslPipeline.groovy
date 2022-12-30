@@ -76,6 +76,13 @@ def runDependendJobs(){
     def prjOne = upstreamProject1.scheduleBuild(new Cause.UserIdCause())
     def prjSecond = upstreamProject2.scheduleBuild(new Cause.UserIdCause())
 
+    if (prjOne) {
+      println "wneed to sync"
+    } else{
+      println "was not scheduled"
+    }
+
+    
     // wait for the upstream builds to complete
 
     def build1 = getLastCompletedBuild(upstreamProject1, prjOne)
