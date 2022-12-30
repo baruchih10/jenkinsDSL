@@ -67,13 +67,12 @@ def runDependendJobs(){
 
  if (upstreamProject1 != null && upstreamProject2 != null && downstreamProject != null) {
     // trigger builds for the upstream projects
-    upstreamProject1.scheduleBuild(new Cause.UserIdCause())
-    upstreamProject2.scheduleBuild(new Cause.UserIdCause())
+    def prjOne = upstreamProject1.scheduleBuild(new Cause.UserIdCause())
+    def prjSecond = upstreamProject2.scheduleBuild(new Cause.UserIdCause())
 
     // wait for the upstream builds to complete
-
-    @NonCPS
-    sleep(20)
+    println "isInProgress ...${prjOne} "
+    println "isInProgress ...${prjSecond.isInProgress()} "
 
     def build1 = getLastCompletedBuild(upstreamProject1)
     def build2 = getLastCompletedBuild(upstreamProject2)
