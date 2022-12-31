@@ -166,7 +166,7 @@ pipeline {
         script {
           sh "date" 
           sh "echo 'verification'"
-          sh "docker network inspect --format '{{ range .Containers }}{{ .Name }} {{ .IPv4Address }}{{ "\\\n" }}{{ end }}' jenkins_jenkins_isolated > /tmp/nginxAddr"
+          sh "docker network inspect --format '{{ range .Containers }}{{ .Name }} {{ .IPv4Address }}{{ end }}' jenkins_jenkins_isolated  awk -F"dslrunandverify_nginx " '{ split($0, fields, " "); print fields[4] }' | cut -d"/" -f1 > /tmp/nginxAddr"
           def response = sh(script: "curl `cat  /tmp/nginxAddr` | grep -q '404 Not Found' && echo '404' || echo '1'", returnStdout: true)
           if (response == "404") {
             println 'Failure - nginx iPAddress : `cat  /tmp/nginxAddr` not Found'
