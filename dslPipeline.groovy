@@ -22,7 +22,6 @@ import hudson.plugins.parameterizedtrigger.*
 def gitUrl = "https://github.com/user/repo.git"
 def dockerhub_PWD = null
 def dockerhub_USR = null
-def verificationUrl = 'http://localhost/containers'
 def stringClass = '$class'
 def stringUsername = '$USERNAME'
 
@@ -167,12 +166,13 @@ pipeline {
         script {
           sh "date" 
           sh "echo 'verification'"
-          def response = sh(script: "curl ${verificationUrl} | grep -q '404 Not Found' && echo '404' || echo '1'", returnStdout: true)
+          sh "docker network inspect --format '{{ range .Containers }}{{ .Name }} {{ .IPv4Address }}{{ "\n" }}{{ end }}' jenkins_jenkins_isolated > /tmp/nginxAddr"
+          def response = sh(script: "curl `cat  /tmp/nginxAddr` | grep -q '404 Not Found' && echo '404' || echo '1'", returnStdout: true)
           if (response == "404") {
-            println 'Failure - ${verificationUrl} not Found'
-            exit 404
+            println 'Failure - nginx iPAddress : `cat  /tmp/nginxAddr` not Found'
+            exit 9
           } else {
-            println 'Success - ${verificationUrl} Found'
+            println 'Success -  nginx iPAddress : `cat  /tmp/nginxAddr` Found'
           }
         }
       }
