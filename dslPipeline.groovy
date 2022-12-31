@@ -167,7 +167,7 @@ pipeline {
           sh "date" 
           sh "pwd"
           sh "echo 'verification'"
-          def response = sh(script: "curl `nginxVerification.sh` | grep -q '404 Not Found' && echo '404' || echo '1'", returnStdout: true)
+          def response = sh(script: "nginxVerification.sh", returnStdout: true)
           if (response == "404") {
             println 'Failure - nginx iPAddress : `cat  /tmp/nginxAddr` not Found'
             exit 9
