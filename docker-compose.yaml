@@ -3,6 +3,7 @@ services:
     image: bhalamish100/bflask:latest
     networks:
       - blocalnetwork
+    ipv4_address: 172.20.0.4
     restart: always
     ports: 
       - '8900:8000'
@@ -20,8 +21,8 @@ services:
       - blocalnetwork
     restart: always
     environment: 
-      - FLASK_SERVER_ADDR=flask-app:8000
-      - JENKINS_SERVER_IP=10.0.2.15
+      - FLASK_SERVER_ADDR=172.20.0.4
+      - FLASK_SERVER_PORT=8900
     ports:
       - "8700:80"
     depends_on:
