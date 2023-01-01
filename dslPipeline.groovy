@@ -169,10 +169,10 @@ pipeline {
           sh "echo 'verification'"
           def response = sh(script: "/tmp/nginxVerification.sh", returnStdout: true)
           if (response == "404") {
-            println 'Failure - nginx iPAddress : `/tmp/nginxAddr` not Found'
+            println 'Failure - nginx iPAddress not Found'
             exit 9
           } else {
-            println 'Success -  nginx iPAddress : `/tmp/nginxAddr` Found'
+            println 'Success -  nginx iPAddress Found'
           }
         }
       }
